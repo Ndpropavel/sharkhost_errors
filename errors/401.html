@@ -2,44 +2,73 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <title>⛔ Не авторизован</title>
+  <title>Доступ ограничен</title>
   <style>
     body {
       margin: 0;
-      font-family: "Segoe UI", Roboto, sans-serif;
-      background: linear-gradient(135deg, #141e30, #243b55);
+      font-family: "Segoe UI", Roboto, Arial, sans-serif;
+      background: linear-gradient(135deg, #1a1a1a, #333);
       color: #fff;
       display: flex;
-      justify-content: center;
       align-items: center;
+      justify-content: center;
       height: 100vh;
       text-align: center;
     }
     .card {
-      background: rgba(0,0,0,0.4);
-      padding: 40px;
-      border-radius: 16px;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.6);
-      animation: fadeIn 1s ease;
+      background: rgba(255, 255, 255, 0.05);
+      padding: 2rem 3rem;
+      border-radius: 1rem;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+      max-width: 600px;
     }
     h1 {
-      font-size: 64px;
-      margin: 0;
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      color: #ff6b6b;
     }
     p {
-      font-size: 20px;
-      margin: 10px 0 0;
+      font-size: 1.1rem;
+      line-height: 1.6;
     }
-    @keyframes fadeIn {
-      from {opacity: 0; transform: translateY(-20px);}
-      to {opacity: 1; transform: translateY(0);}
+    .hint {
+      margin-top: 1.5rem;
+      font-size: 0.95rem;
+      color: #bbb;
+    }
+    .browsers {
+      margin-top: 1.5rem;
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+    }
+    .browsers img {
+      width: 40px;
+      height: 40px;
+      opacity: 0.8;
+      transition: opacity 0.2s;
+    }
+    .browsers img:hover {
+      opacity: 1;
     }
   </style>
 </head>
 <body>
   <div class="card">
-    <h1>⛔ 401</h1>
-    <p>Вы не авторизованы для доступа к этой странице.</p>
+    <h1>🚫 Доступ ограничен</h1>
+    <p>
+      Возможно, вы открыли сайт внутри <b>Telegram-браузера</b>, который не поддерживает авторизацию.<br>
+      Пожалуйста, используйте обычный браузер:
+    </p>
+
+    <div class="browsers">
+      <img src="https://cdn.jsdelivr.net/gh/alrra/browser-logos/src/chrome/chrome_64x64.png" alt="Chrome">
+      <img src="https://cdn.jsdelivr.net/gh/alrra/browser-logos/src/firefox/firefox_64x64.png" alt="Firefox">
+      <img src="https://cdn.jsdelivr.net/gh/alrra/browser-logos/src/safari/safari_64x64.png" alt="Safari">
+      <img src="https://cdn.jsdelivr.net/gh/alrra/browser-logos/src/edge/edge_64x64.png" alt="Edge">
+    </div>
+
+    <p class="hint">Попробуйте открыть ссылку в Chrome, Firefox, Safari или Edge.</p>
   </div>
 </body>
 </html>
