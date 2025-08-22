@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<title>Авторизация</title>
+<style>
+body { font-family: "Segoe UI", sans-serif; background: linear-gradient(135deg,#1a1a1a,#333); display:flex; justify-content:center; align-items:center; height:100vh; margin:0; color:#fff; }
+.card { background: rgba(255,255,255,0.05); padding:2rem 3rem; border-radius:12px; text-align:center; max-width:400px; }
+input { width:100%; padding:0.6rem; margin:0.5rem 0; border:none; border-radius:6px; }
+button { width:100%; padding:0.7rem; border:none; border-radius:6px; background:#ff6b6b; color:white; cursor:pointer; font-size:1rem; }
+button:hover { background:#ff4c4c; }
+#msg { margin-top:1rem; color:#ff6b6b; font-weight:bold; }
+</style>
+</head>
+<body>
+<div class="card">
+<h2>🔒 Вход</h2>
+<input type="text" id="username" placeholder="Логин" required>
+<input type="password" id="password" placeholder="Пароль" required>
+<button onclick="login()">Войти</button>
+<p id="msg"></p>
+</div>
+
+<script>
+let server_ip = "";
+
+async function getServerIP() {
+    try {
+        const res = await fetch("https://api.ipify.org?format=json");
+        const data = await res.json();
+        server_ip = data.ip;
+    } catch (e) {
+        console.error("Не удалось получить IP сервера:", e);
+        server_ip = window.location.hostname; // fallback
+    }
+}
+
+async function login() {
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
+    const subdomain = window.location.hostname.split('.')[0];
+
+    if (!server_ip) await getServerIP();
+
+    const res = await fetch(`http://${server_ip}:8000/api/host/check`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ subdomain, username, password })
+    });
+
+    const msg = document.getElementById('msg');
+
+    if(res.status === 200){
+        document.cookie = `Auth_${subdomain}=OK; path=/; samesite=strict`;
+        window.location.href = '/';
+    } else if(res.status === 401 || res.status === 403){
+        msg.innerText = "Неверный логин или пароль!";
+    } else if(res.status === 502){
+        msg.innerText = "Контейнер, возможно, не запущен. Свяжитесь с администратором.";
+    } else {
+        msg.innerText = "Ошибка сети. Попробуйте позже.";
+    }
+}
+</script>
+</body>
+</html>
